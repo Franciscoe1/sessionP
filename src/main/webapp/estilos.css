@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+/* Paleta de colores */
+:root {
+    --red-pastel-ultra-light: #fef8f8;     /* Fondo general muy muy claro */
+    --red-pastel-light: #f9e3e3;          /* Fondo de elementos sutil, filas pares */
+    --red-pastel-medium: #f2cccc;         /* Para bordes/líneas */
+    --red-pastel-dark: #c25252;           /* Texto, botones secundarios, encabezados */
+    --red-pastel-darker: #a04242;         /* Para hover o elementos más prominentes */
+    --red-pastel-text: #8b3c3c;           /* Un tono de rojo más oscuro para texto principal */
+
+    --success-color: #34a853;
+    --card-bg: #ffffff;
+    --text-dark: #3c4043;
+    --alert-color: #dc3545;
+
+    --background-light: var(--red-pastel-ultra-light);
+    --border-light: var(--red-pastel-medium);
+    --secondary-color: var(--red-pastel-dark);
+    --hover-effect-light: #fce8e8; /* Nuevo color para hover sutil (de la mejora) */
+    --shadow-light: rgba(0, 0, 0, 0.08); /* Sombra más suave (de la mejora) */
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    /* MEJORA 1: Degradado sutil para el fondo del body */
+    background: linear-gradient(to bottom right, var(--red-pastel-ultra-light) 0%, #fefcfc 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MEJORA 2: Estilos del Título Principal (revisado para usar Montserrat y animación) */
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5em; /* Tamaño más grande */
+    color: var(--red-pastel-darker);
+    text-align: left;
+
+    padding-bottom: 0; /* Lo gestiona el contenedor */
+    margin-bottom: 0; /* Lo gestiona el contenedor */
+
+    border-bottom: none; /* Se elimina el borde aquí para usar el contenedor */
+    position: relative;
+    box-shadow: none;
+
+    /* Animación al cargar */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInSlideUp 0.8s ease-out forwards;
+}
+
+/* Animación para el h1 */
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* El pseudo-elemento H1::after se mueve al contenedor .header-with-credit para evitar conflictos */
+
+
+/* --- Contenedor Principal (Tarjetas) --- */
+.container {
+    max-width: 900px; /* Ancho ajustado para vista de "tarjeta" */
+    margin: 40px auto;
+    padding: 30px; /* Más padding */
+    background: var(--card-bg);
+    border-radius: 16px; /* Bordes más redondeados */
+    box-shadow: 0 10px 30px var(--shadow-light); /* Sombra más grande y suave */
+    border: 1px solid var(--border-light);
+    /* Animación de carga para el contenedor */
+    transform: scale(0.95);
+    opacity: 0;
+    animation: scaleIn 0.5s ease-out forwards 0.2s;
+}
+
+@keyframes scaleIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* MEJORA 3: Estilos para la sección del Título y Créditos */
+.header-with-credit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--red-pastel-medium);
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.header-with-credit h1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px; /* Alineado con el borde del contenedor */
+    width: 80px;
+    height: 5px;
+    background-color: var(--red-pastel-dark);
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.app-icon {
+    width: 40px; /* Ícono más grande */
+    height: 40px;
+    object-fit: contain;
+}
+
+.flaticon-credit {
+    font-size: 0.7em;
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-left: auto;
+    align-self: flex-end;
+}
+
+
+/* MEJORA 4: Estilos de la lista de navegación (Menú) */
+.home-container ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 15px;
+}
+
+.home-container li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 25px;
+    background-color: var(--red-pastel-light);
+    border: 1px solid var(--red-pastel-medium);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--red-pastel-dark);
+    font-weight: 600;
+    font-size: 1.1em;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.home-container li a:hover {
+    background-color: var(--hover-effect-light);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--red-pastel-dark);
+    color: var(--red-pastel-darker);
+}
+
+.home-container li a::after {
+    content: '→';
+    font-weight: bold;
+    margin-left: 15px;
+    color: var(--red-pastel-dark);
+    transition: transform 0.2s ease;
+}
+
+.home-container li a:hover::after {
+    transform: translateX(5px);
+}
+/* ------------------------------------------------------------------- */
+
+
+/* --- Formulario y Encabezados --- */
+.header h2 {
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--red-pastel-dark);
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* --- Botones y Acciones --- */
+.actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.button, a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.primary {
+    background-color: var(--red-pastel-darker);
+    color: #fff;
+}
+
+.primary:hover {
+    background-color: var(--red-pastel-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.secondary {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.secondary:hover {
+    background-color: #a04242;
+}
+
+.success {
+    background-color: var(--success-color);
+    color: #fff;
+}
+
+.success:hover {
+    background-color: #2e8b46;
+}
+
+.alert-button {
+    background-color: var(--alert-color);
+    color: #fff;
+}
+
+.alert-button:hover {
+    background-color: #c82333;
+}
+
+
+/* --- Tablas --- */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--red-pastel-light);
+    font-size: 0.95em;
+}
+
+.styled-table th {
+    background-color: var(--red-pastel-darker);
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* SOLUCIÓN FILAS ALTERNAS (Alta Especificidad) */
+.styled-table tbody tr:nth-child(odd) td {
+    background-color: var(--card-bg) !important;
+    color: var(--text-dark) !important;
+    font-weight: 400 !important;
+}
+
+.styled-table tbody tr:nth-child(even) td {
+    background-color: var(--red-pastel-ultra-light) !important;
+    color: var(--text-dark) !important;
+    font-weight: 400 !important;
+}
+
+.styled-table tr:hover td {
+    background-color: #f7e0e0 !important;
+    font-weight: 400 !important;
+}
+
+/* Estilos específicos para totales en carrito */
+.styled-table tr td[colspan="4"] {
+    font-weight: 600;
+    background-color: var(--red-pastel-light);
+}
+.styled-table tr:last-child td {
+    background-color: var(--red-pastel-light) !important;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--red-pastel-darker);
+    border-top: 2px solid var(--red-pastel-dark);
+}
+
+
+/* --- Alertas y Mensajes --- */
+.welcome-message {
+    padding: 12px;
+    background-color: #eaf8ed;
+    border: 1px solid #c8e6c9;
+    color: #2e8b46;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert {
+    padding: 12px;
+    background-color: var(--red-pastel-light);
+    border: 1px solid var(--red-pastel-dark);
+    color: var(--alert-color);
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+/* --- Estilos de Formulario --- */
+label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"] {
+    border-color: var(--red-pastel-dark);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(194, 82, 82, 0.2);
+}
