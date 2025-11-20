@@ -5,6 +5,7 @@ package services;
  * */
 import modelos.Producto;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -26,15 +27,10 @@ public class ProductosServicesImplement implements ProductoServices {
     public List<Producto> listar() {
         // Implementación con datos estáticos (Mock Data)
         return Arrays.asList(
-                new Producto(1L, "Laptop", "computacion", 1500.00),
-                new Producto(2L, "iPhone", "telefonia", 800.00),
-                new Producto(3L, "Macbook", "tablet", 1200.00),
-                new Producto(4L, "Pantalla Samsung", "computacion", 300.00),
-                new Producto(5L, "Tablet Samsung", "tablet", 400.00),
-                new Producto(6L, "Xiaomi Redmi", "telefonia", 500.00),
-                new Producto(7L, "Auriculares Sony", "accesorios", 150.00),
-                new Producto(8L, "Smartwatch Fitbit", "accesorios", 200.00)
-        );
+                new Producto(1L, 1, LocalDate.of(2026,11,19), LocalDate.of(2025,11,19), "Leche fresca y pasteurizada.", 50, 2000.0, "telefono", "inteligencia"),
+                new Producto(2L, 2, LocalDate.of(2026,5,10), LocalDate.of(2025,5,10), "Pan integral recién horneado.", 30, 1500.0, "telefono", "inteligencia"),
+                new Producto(3L, 3, LocalDate.of(2027,1,5), LocalDate.of(2026,1,5), "Huevos orgánicos de gallinas libres.", 100, 3000.0, "telefono", "inteligencia")
+                );
     }
 
     /**
@@ -50,6 +46,6 @@ public class ProductosServicesImplement implements ProductoServices {
         // 3. Filtra el stream: solo mantiene los productos cuyo ID sea igual al ID buscado.
         // 4. findAny(): Devuelve el primer elemento que coincide (envuelto en Optional)
         //    y detiene el procesamiento del stream.
-        return listar().stream().filter(p -> p.getId().equals(id)).findAny();
+        return listar().stream().filter(p -> p.getid().equals(id)).findAny();
     }
 }

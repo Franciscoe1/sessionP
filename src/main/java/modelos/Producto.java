@@ -1,144 +1,113 @@
 package modelos;
 
-/*
- * Clase modelo Producto
- * Representa un artículo que puede ser vendido y añadido a un carrito de compras.
- */
-import java.util.Objects;
+import java.time.LocalDate;
 
 public class Producto {
-
-    // --- Atributos de la clase Producto ---
-
-    // Identificador único del producto (clave primaria).
     private Long id;
-    // Nombre descriptivo del producto.
     private String nombre;
-    // Categoría o tipo al que pertenece el producto (e.g., "Electrónica", "Ropa").
-    private String tipo;
-    // Precio de venta unitario del producto.
+    // implementamos las variables de la base de datos
+    private Categoria categoria;
     private double precio;
+    // declaramos la variable stock
+    private int stock;
+    // Cambiamos la variable tipo por descripcion
+    private String descripcion;
+    // declaramos las variables fecha de elaboración, caducidad y condición
+    private LocalDate fechaElaboracion;
+    private LocalDate fechaCaducidad;
+    private int condicion;
 
-    // --- Constructores ---
-
-    /**
-     * Constructor vacío por defecto.
-     * Útil para frameworks que requieren un constructor sin argumentos (e.g., JPA, Spring).
-     */
     public Producto() {
     }
 
-    /**
-     * Constructor para inicializar todos los atributos del producto.
-     * * @param id El identificador único del producto.
-     * @param nombre El nombre del producto.
-     * @param tipo El tipo o categoría del producto.
-     * @param precio El precio de venta del producto.
-     */
-    public Producto(Long id, String nombre, String tipo, double precio) {
+    // Modificamos el constructor con las variables añadidas
+    public Producto(Long id, int condicion, LocalDate fechaCaducidad, LocalDate fechaElaboracion,
+                    String descripcion, int stock, double precio, String nombre, String tipo) {
         this.id = id;
+        this.condicion = condicion;
+        // Instanciamos un objeto de tipo Categoria
+        Categoria categoria = new Categoria();
+        categoria.setNombre(tipo);
+        this.categoria = categoria; // Asumiendo que quieres asignar la nueva categoria a this.categoria
+        this.fechaCaducidad = fechaCaducidad;
+        this.fechaElaboracion = fechaElaboracion;
+        this.descripcion = descripcion;
+        this.stock = stock;
+        this.precio = precio;
+
         this.nombre = nombre;
-        this.tipo = tipo;
+    }
+
+    // Implementamos los métodos setter and getter
+    // de las valables añadidas
+public Long getid() {
+    return id;
+}
+
+public void setId(Long id) {
+    this.id = id;
+}
+
+public int getCondicion() {
+    return condicion;
+}
+
+public void setCondicion(int condicion) {
+    this.condicion = condicion;
+}
+
+public LocalDate getFechaCaducidad() {
+    return fechaCaducidad;
+}
+
+public void setFechaCaducidad(LocalDate fechaCaducidad) {
+    this.fechaCaducidad = fechaCaducidad;
+}
+
+public LocalDate getFechaElaboracion() {
+    return fechaElaboracion;
+}
+
+public void setFechaElaboracion(LocalDate fechaElaboracion) {
+    this.fechaElaboracion = fechaElaboracion;
+}
+
+public String getDescripcion() {
+    return descripcion;
+}
+
+public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+}
+
+public int getStock() {
+    return stock;
+}
+
+public void setStock(int stock) {
+    this.stock = stock;
+}
+
+public double getPrecio() {
+    return precio;
+}
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    // --- Métodos Getters ---
-
-    /**
-     * Obtiene el identificador único del producto.
-     * @return El ID del producto.
-     */
-    public Long getId() {
-        return id;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    /**
-     * Obtiene el nombre del producto.
-     * @return El nombre.
-     */
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * Obtiene el tipo o categoría del producto.
-     * @return El tipo.
-     */
-    public String getTipo() {
-        return tipo;
-    }
-
-    /**
-     * Obtiene el precio de venta unitario del producto.
-     * @return El precio.
-     */
-    public double getPrecio() {
-        return precio;
-    }
-
-    // --- Métodos Setters ---
-    // (Opcionales, pero incluidos por completitud para modificar el estado del objeto)
-
-    /**
-     * Establece el identificador único del producto.
-     * @param id El nuevo ID.
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Establece el nombre del producto.
-     * @param nombre El nuevo nombre.
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    /**
-     * Establece el tipo o categoría del producto.
-     * @param tipo El nuevo tipo.
-     */
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    /**
-     * Establece el precio de venta unitario del producto.
-     * @param precio El nuevo precio.
-     */
-    public void setPrecio(double precio) { // Corregido tipo a double
-        this.precio = precio;
-    }
-
-    // --- Métodos de Comparación (equals y hashCode) ---
-
-    /**
-     * Define la lógica de igualdad entre dos objetos Producto.
-     * Dos productos se consideran iguales si tienen el mismo ID.
-     * @param o El objeto con el que comparar.
-     * @return true si los IDs son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        // Verifica nulidad y si la clase es la misma
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Producto producto = (Producto) o;
-        // La igualdad se basa exclusivamente en el ID
-        return Objects.equals(id, producto.id);
-    }
-
-    /**
-     * Genera un código hash para el objeto. Es esencial redefinirlo
-     * junto con equals() para el correcto funcionamiento en colecciones
-     * basadas en hash (como HashMap o HashSet).
-     * El hash se basa **únicamente en el ID**.
-     * @return El código hash basado en el ID.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

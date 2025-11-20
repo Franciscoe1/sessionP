@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
-/* Paleta de colores */
+/* ========================================================================= */
+/* --- PALETA DE COLORES Y VARIABLES GLOBALES (:root) --- */
+/* ========================================================================= */
+
 :root {
     --red-pastel-ultra-light: #fef8f8;     /* Fondo general muy muy claro */
     --red-pastel-light: #f9e3e3;          /* Fondo de elementos sutil, filas pares */
@@ -17,65 +20,37 @@
     --background-light: var(--red-pastel-ultra-light);
     --border-light: var(--red-pastel-medium);
     --secondary-color: var(--red-pastel-dark);
-    --hover-effect-light: #fce8e8; /* Nuevo color para hover sutil (de la mejora) */
-    --shadow-light: rgba(0, 0, 0, 0.08); /* Sombra más suave (de la mejora) */
+    --hover-effect-light: #fce8e8; /* Color para hover sutil */
+    --shadow-light: rgba(0, 0, 0, 0.08); /* Sombra más suave */
 }
 
+/* ========================================================================= */
+/* --- ESTILOS GENERALES (BASE) --- */
+/* ========================================================================= */
+
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Prioriza Montserrat del primer bloque, ya importado */
+    line-height: 1.6;
     background-color: var(--background-light);
     color: var(--text-dark);
     margin: 0;
     padding: 0;
-    line-height: 1.6;
-    /* MEJORA 1: Degradado sutil para el fondo del body */
+    /* MEJORA: Degradado sutil para el fondo del body */
     background: linear-gradient(to bottom right, var(--red-pastel-ultra-light) 0%, #fefcfc 100%);
     min-height: 100vh;
-    display: flex;
+    display: flex; /* Para centrar el contenedor en la pantalla */
     justify-content: center;
     align-items: center;
 }
 
-/* MEJORA 2: Estilos del Título Principal (revisado para usar Montserrat y animación) */
-h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 2.5em; /* Tamaño más grande */
-    color: var(--red-pastel-darker);
-    text-align: left;
-
-    padding-bottom: 0; /* Lo gestiona el contenedor */
-    margin-bottom: 0; /* Lo gestiona el contenedor */
-
-    border-bottom: none; /* Se elimina el borde aquí para usar el contenedor */
-    position: relative;
-    box-shadow: none;
-
-    /* Animación al cargar */
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInSlideUp 0.8s ease-out forwards;
-}
-
-/* Animación para el h1 */
-@keyframes fadeInSlideUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* El pseudo-elemento H1::after se mueve al contenedor .header-with-credit para evitar conflictos */
-
-
 /* --- Contenedor Principal (Tarjetas) --- */
 .container {
-    max-width: 900px; /* Ancho ajustado para vista de "tarjeta" */
+    max-width: 900px; /* Ancho ajustado de la mejora */
     margin: 40px auto;
-    padding: 30px; /* Más padding */
+    padding: 30px; /* Más padding de la mejora */
     background: var(--card-bg);
-    border-radius: 16px; /* Bordes más redondeados */
-    box-shadow: 0 10px 30px var(--shadow-light); /* Sombra más grande y suave */
+    border-radius: 16px; /* Bordes más redondeados de la mejora */
+    box-shadow: 0 10px 30px var(--shadow-light); /* Sombra más grande y suave de la mejora */
     border: 1px solid var(--border-light);
     /* Animación de carga para el contenedor */
     transform: scale(0.95);
@@ -90,7 +65,39 @@ h1 {
     }
 }
 
-/* MEJORA 3: Estilos para la sección del Título y Créditos */
+/* Encabezados y títulos (H2, H3 usan la configuración base, H1 está especializado) */
+h2, h3 {
+    color: var(--red-pastel-darker);
+    border-bottom: 2px solid var(--red-pastel-medium);
+    padding-bottom: 8px;
+    margin-top: 0;
+}
+
+/* Estilos de H1 especializado (MEJORA 2) */
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5em;
+    color: var(--red-pastel-darker);
+    text-align: left;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+    position: relative;
+    box-shadow: none;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInSlideUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Estilos para la sección del Título y Créditos (MEJORA 3) --- */
 .header-with-credit {
     display: flex;
     align-items: center;
@@ -101,11 +108,12 @@ h1 {
     position: relative;
 }
 
+/* Subrayado animado para H1 */
 .header-with-credit h1::after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -1px; /* Alineado con el borde del contenedor */
+    bottom: -1px;
     width: 80px;
     height: 5px;
     background-color: var(--red-pastel-dark);
@@ -114,7 +122,7 @@ h1 {
 }
 
 .app-icon {
-    width: 40px; /* Ícono más grande */
+    width: 40px;
     height: 40px;
     object-fit: contain;
 }
@@ -127,56 +135,7 @@ h1 {
     align-self: flex-end;
 }
 
-
-/* MEJORA 4: Estilos de la lista de navegación (Menú) */
-.home-container ul {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 15px;
-}
-
-.home-container li a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 18px 25px;
-    background-color: var(--red-pastel-light);
-    border: 1px solid var(--red-pastel-medium);
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--red-pastel-dark);
-    font-weight: 600;
-    font-size: 1.1em;
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.home-container li a:hover {
-    background-color: var(--hover-effect-light);
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    border-color: var(--red-pastel-dark);
-    color: var(--red-pastel-darker);
-}
-
-.home-container li a::after {
-    content: '→';
-    font-weight: bold;
-    margin-left: 15px;
-    color: var(--red-pastel-dark);
-    transition: transform 0.2s ease;
-}
-
-.home-container li a:hover::after {
-    transform: translateX(5px);
-}
-/* ------------------------------------------------------------------- */
-
-
-/* --- Formulario y Encabezados --- */
+/* --- Formulario y Encabezados de Formulario --- */
 .header h2 {
     color: var(--text-dark);
     margin-bottom: 5px;
@@ -191,143 +150,6 @@ h1 {
     background-color: var(--red-pastel-dark);
     border-radius: 4px;
     margin-bottom: 15px;
-}
-
-/* --- Botones y Acciones --- */
-.actions {
-    margin-top: 25px;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.button, a.button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.2s;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.primary {
-    background-color: var(--red-pastel-darker);
-    color: #fff;
-}
-
-.primary:hover {
-    background-color: var(--red-pastel-dark);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.secondary {
-    background-color: var(--secondary-color);
-    color: #fff;
-}
-
-.secondary:hover {
-    background-color: #a04242;
-}
-
-.success {
-    background-color: var(--success-color);
-    color: #fff;
-}
-
-.success:hover {
-    background-color: #2e8b46;
-}
-
-.alert-button {
-    background-color: var(--alert-color);
-    color: #fff;
-}
-
-.alert-button:hover {
-    background-color: #c82333;
-}
-
-
-/* --- Tablas --- */
-.styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.styled-table th, .styled-table td {
-    padding: 12px 18px;
-    text-align: left;
-    border-bottom: 1px solid var(--red-pastel-light);
-    font-size: 0.95em;
-}
-
-.styled-table th {
-    background-color: var(--red-pastel-darker);
-    color: #fff;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-/* SOLUCIÓN FILAS ALTERNAS (Alta Especificidad) */
-.styled-table tbody tr:nth-child(odd) td {
-    background-color: var(--card-bg) !important;
-    color: var(--text-dark) !important;
-    font-weight: 400 !important;
-}
-
-.styled-table tbody tr:nth-child(even) td {
-    background-color: var(--red-pastel-ultra-light) !important;
-    color: var(--text-dark) !important;
-    font-weight: 400 !important;
-}
-
-.styled-table tr:hover td {
-    background-color: #f7e0e0 !important;
-    font-weight: 400 !important;
-}
-
-/* Estilos específicos para totales en carrito */
-.styled-table tr td[colspan="4"] {
-    font-weight: 600;
-    background-color: var(--red-pastel-light);
-}
-.styled-table tr:last-child td {
-    background-color: var(--red-pastel-light) !important;
-    font-size: 1.1em;
-    font-weight: 700;
-    color: var(--red-pastel-darker);
-    border-top: 2px solid var(--red-pastel-dark);
-}
-
-
-/* --- Alertas y Mensajes --- */
-.welcome-message {
-    padding: 12px;
-    background-color: #eaf8ed;
-    border: 1px solid #c8e6c9;
-    color: #2e8b46;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    font-weight: 500;
-}
-
-.alert {
-    padding: 12px;
-    background-color: var(--red-pastel-light);
-    border: 1px solid var(--red-pastel-dark);
-    color: var(--alert-color);
-    border-radius: 6px;
-    margin-top: 15px;
 }
 
 /* --- Estilos de Formulario --- */
@@ -351,8 +173,242 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
-input[type="password"] {
+input[type="password"]:focus { /* Corregido el selector de focus */
     border-color: var(--red-pastel-dark);
     outline: none;
     box-shadow: 0 0 0 3px rgba(194, 82, 82, 0.2);
+}
+
+/* ========================================================================= */
+/* --- BOTONES Y ENLACES --- */
+/* ========================================================================= */
+
+/* Estilo base para .button y a.button, tomado del segundo bloque por ser más detallado */
+.button, a.button {
+    display: inline-block;
+    padding: 10px 20px; /* Ligeramente más grande que el original */
+    margin: 5px 0; /* Margen del bloque original */
+    font-size: 1em;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px; /* Más redondeado */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón Principal (Azul/Éxito en el original, pero el segundo usa Red Pastel) */
+.button.primary {
+    background-color: var(--red-pastel-darker); /* Adoptando el color primario del segundo bloque */
+    color: #fff;
+}
+
+.button.primary:hover {
+    background-color: var(--red-pastel-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Secundario (Rojo Pastel) */
+.button.secondary {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.button.secondary:hover {
+    background-color: #a04242; /* Equivalente a var(--red-pastel-darker) */
+}
+
+/* Botón Éxito (Para Agregar al Carrito) */
+.button.success {
+    background-color: var(--success-color);
+    color: #fff;
+}
+
+.button.success:hover {
+    background-color: #2e8b46;
+}
+
+/* Botón Pequeño para la Tabla (del bloque original) */
+.button.small {
+    padding: 5px 8px;
+    font-size: 0.8em;
+}
+
+/* Botón de alerta/peligro */
+.button.alert-button {
+    background-color: var(--alert-color);
+    color: #fff;
+}
+
+.button.alert-button:hover {
+    background-color: #c82333;
+}
+
+
+/* Estilos para el contenedor de botones/acciones */
+.actions {
+    margin-top: 25px;
+    padding-top: 15px; /* Del original */
+    border-top: 1px solid var(--border-light); /* Del original */
+    display: flex;
+    gap: 15px; /* Separación ligeramente mayor de la mejora */
+    align-items: center; /* De la mejora */
+}
+
+
+/* ========================================================================= */
+/* --- ESTILOS DE TABLA (LISTADO DE PRODUCTOS Y CARRITO) --- */
+/* ========================================================================= */
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0; /* Margen del original */
+    font-size: 0.9em; /* Del original */
+    min-width: 400px;
+    /* Sombras y bordes de la mejora */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados se vean bien */
+}
+
+/* Celdas de cabecera y cuerpo */
+.styled-table th,
+.styled-table td {
+    padding: 12px 18px; /* Padding de la mejora */
+    text-align: left;
+    border-bottom: 1px solid var(--red-pastel-light); /* Separador sutil */
+    font-size: 0.95em;
+}
+
+/* Estilo de la cabecera de la tabla */
+.styled-table thead tr {
+    background-color: var(--red-pastel-darker); /* Color más oscuro de la mejora */
+    color: #ffffff;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Filas del cuerpo de la tabla: Estilos de la SOLUCIÓN FILAS ALTERNAS (Alta Especificidad) */
+.styled-table tbody tr:nth-child(odd) td {
+    background-color: var(--card-bg) !important;
+    color: var(--text-dark) !important;
+    font-weight: 400 !important;
+}
+
+.styled-table tbody tr:nth-child(even) td {
+    background-color: var(--red-pastel-ultra-light) !important;
+    color: var(--text-dark) !important;
+    font-weight: 400 !important;
+}
+
+/* Efecto hover al pasar el ratón por la fila */
+.styled-table tr:hover td {
+    background-color: #f7e0e0 !important;
+    font-weight: 400 !important;
+}
+
+/* Estilos específicos para celdas de precio o acción */
+/* Mantenido del original, ajustado a 3 y 4 por el cambio de .styled-table th */
+.styled-table td:nth-child(3), /* Columna de Precio (Asumiendo 3) */
+.styled-table td:nth-child(4) { /* Columna de Acción (Asumiendo 4) */
+    text-align: center;
+}
+
+/* Estilos específicos para totales en carrito */
+.styled-table tr td[colspan="4"] {
+    font-weight: 600;
+    background-color: var(--red-pastel-light);
+}
+
+/* Estilo para la última fila de total, usando tr:last-child para cubrir tr.final-total */
+.styled-table tr:last-child td {
+    background-color: var(--red-pastel-light) !important;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--red-pastel-darker);
+    border-top: 2px solid var(--red-pastel-dark);
+}
+
+/* ========================================================================= */
+/* --- ALERTAS Y MENSAJES (LOGIN.JSP) --- */
+/* ========================================================================= */
+
+/* Estilos de error/alerta (para el Login.jsp) - Base */
+.alert {
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+/* Alerta de Error (tomado del primer bloque, pero usando la clase .alert.error) */
+.alert.error {
+    background-color: var(--red-pastel-light);
+    border: 1px solid var(--red-pastel-dark);
+    color: var(--alert-color);
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+/* Mensaje de Bienvenida (Éxito) */
+.welcome-message {
+    padding: 12px;
+    background-color: #eaf8ed;
+    border: 1px solid #c8e6c9;
+    color: #2e8b46;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* ========================================================================= */
+/* --- ESTILOS DE NAVEGACIÓN (MEJORA 4) --- */
+/* ========================================================================= */
+.home-container ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 15px;
+}
+
+.home-container li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 25px;
+    background-color: var(--red-pastel-light);
+    border: 1px solid var(--red-pastel-medium);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--red-pastel-dark);
+    font-weight: 600;
+    font-size: 1.1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.home-container li a:hover {
+    background-color: var(--hover-effect-light);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--red-pastel-dark);
+    color: var(--red-pastel-darker);
+}
+
+.home-container li a::after {
+    content: '→';
+    font-weight: bold;
+    margin-left: 15px;
+    color: var(--red-pastel-dark);
+    transition: transform 0.2s ease;
+}
+
+.home-container li a:hover::after {
+    transform: translateX(5px);
 }

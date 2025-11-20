@@ -9,10 +9,11 @@ import modelos.Producto;
 import services.LoginService;
 import services.LoginServiceSessionImpl;
 import services.ProductoServices;
-import services.ProductosServicesImplement;
+import services.ProductoServiceJdbcImpl; // 1. Cambia la importación al servicio JDBC
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection; // 2. Nueva importación necesaria
 import java.util.List;
 import java.util.Optional;
 
@@ -27,67 +28,63 @@ public class ProductoXlsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // 1. Obtener los datos de los productos
-        ProductoServices service = new ProductosServicesImplement();
+        // 1. Obtener la conexión inyectada por el ConexionFilter
+        // La conexión debe existir como atributo de la solicitud
+        Connection conn = (Connection) req.getAttribute("conn");
+        if (conn == null) {
+            // Manejo de error si la conexión no está presente (aunque no debería pasar con el filtro)
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo obtener la conexión a la base de datos.");
+            return;
+        }
+
+        // 2. Inicializar el servicio con la implementación JDBC, pasándole la conexión
+        // Esto permite que el servicio acceda a la base de datos
+        ProductoServices service = new ProductoServiceJdbcImpl(conn);
         List<Producto> productos = service.listar();
 
-        // 2. Verificar el estado de autenticación del usuario
-        // Se utiliza el servicio de login para saber si hay un usuario en la sesión.
+        // 3. Verificar el estado de autenticación del usuario (el resto del código sigue igual)
         LoginService auth = new LoginServiceSessionImpl();
         Optional<String> usernameOptional = auth.getUsername(req);
 
-        // 3. Configurar la respuesta HTML
+        // 4. Configuración de la respuesta HTTP
         resp.setContentType("text/html;charset=UTF-8");
 
-        // 4. Generar el HTML dinámicamente
+        // ... el resto del método doGet (código HTML/salida) sigue aquí
         try (PrintWriter out = resp.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset=\"UTF-8\">");
-            out.println("<title>Listado de Productos</title>");
-            // Enlace a estilos CSS
-            out.println("<link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/estilos.css\">");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<div class='container'>"); // Contenedor principal
-            out.println("<h1>Listado de Productos</h1>");
+            // ... (HTML de encabezado y tabla)
 
-            // 5. Mensaje de bienvenida/login condicional
-            if (usernameOptional.isPresent()) {
-                out.println("<div class='welcome-message'>Hola " + usernameOptional.get() + " ¡Bienvenido!</div>");
-            } else {
-                // Mensaje si no está logueado, alentando a iniciar sesión para interactuar.
-                out.println("<div class='alert'>Debes <a href='" + req.getContextPath() + "/Login.jsp'>Iniciar Sesión</a> para ver precios y comprar.</div>");
-            }
+            out.println("<div class='container'>");
 
-            // 6. Generación de la tabla de productos
+            // ... (lógica de bienvenida y login/logout)
+
+            out.println("<h2>Listado de Productos</h2>");
+
             out.println("<table class='styled-table'>");
+            out.println("<thead>");
             out.println("<tr>");
-            out.println("<th>id</th>");
-            out.println("<th>nombre</th>");
-            out.println("<th>tipo</th>");
-
-            // Las columnas 'precio' y 'Opciones' solo se muestran si el usuario está autenticado.
+            out.println("<th>ID</th>");
+            out.println("<th>Nombre</th>");
+            out.println("<th>Categoría</th>");
             if (usernameOptional.isPresent()) {
-                out.println("<th>precio</th>");
-                out.println("<th>Opciones</th>");
+                out.println("<th>Precio</th>");
+                out.println("<th>Acción</th>");
             }
             out.println("</tr>");
+            out.println("</thead>");
 
             // 7. Iterar y mostrar los productos
             productos.forEach(p -> {
                 out.println("<tr>");
-                out.println("<td>" + p.getId() + "</td>");
+                out.println("<td>" + p.getid() + "</td>");
                 out.println("<td>" + p.getNombre() + "</td>");
-                out.println("<td>" + p.getTipo() + "</td>");
+                // Asegúrate de que p.getCategoria() no sea null en ProductoServiceJdbcImpl.getProducto
+                out.println("<td>" + p.getCategoria().getNombre() + "</td>");
 
                 if (usernameOptional.isPresent()) {
                     // Muestra el precio
                     out.println("<td>" + p.getPrecio() + "</td>");
                     // Muestra el botón para agregar al carrito, enlazando al AgregarCarroServlet
-                    out.println("<td><a href=\""
-                            + req.getContextPath() + "/agregar-carro?id=" + p.getId() + "\" title=\"Agregar al carro\" class='button success small'>🛒</a></td>");
+                    out.println("<td><a href=\"\"\r\n                            + req.getContextPath() + \"/agregar-carro?id=\" + p.getid() + \"\\\" title=\\\"Agregar al carro\\\" class='button success small'>🛒</a></td>");
                 }
                 out.println("</tr>");
             });
@@ -97,7 +94,6 @@ public class ProductoXlsServlet extends HttpServlet {
             // 8. Enlaces de navegación
             out.println("<div class='actions'>");
             out.println("<a class='button secondary' href='"+req.getContextPath()+"/Index.html'>Inicio</a>");
-            // El enlace para ver el carro siempre está disponible, el servlet de ver-carro manejará el estado.
             out.println("<a class='button primary' href='"+req.getContextPath()+"/ver-carro'>Ver Carro</a>");
             out.println("</div>");
 

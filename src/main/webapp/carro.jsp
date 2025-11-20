@@ -25,7 +25,17 @@
     // El objeto fue guardado previamente por AgregarCarroServlet bajo la clave "carro".
     DetalleCarro detalleCarro = (DetalleCarro) session.getAttribute("carro");
 
-    // NOTA: Se ha eliminado toda la lógica de generación de PDF de este JSP (la cual reside ahora en DescargarFacturaServlet).
+    // Variables para el resumen del total
+    double total = 0.0;
+    double iva = 0.0;
+    double totalConIva = 0.0;
+
+    // Calcular los totales si existe el carrito
+    if (detalleCarro != null && !detalleCarro.getItem().isEmpty()) {
+        total = detalleCarro.getTotal();
+        iva = detalleCarro.getIva();
+        totalConIva = detalleCarro.getTotalConIva();
+    }
 %>
 
 <html>
@@ -35,44 +45,53 @@
 </head>
 <body>
 <div class="container">
-    <h1>🛒 Carro de Compras</h1>
+
+    <div class="header">
+        <h2>🛍️ Carro de Compras</h2>
+        <span class="badge">Detalle</span>
+    </div>
 
     <%
-        // --- Lógica Condicional de Renderizado ---
-        // 2. Comprobar si el carrito está vacío o no existe.
+        // Condición para mostrar el mensaje de carro vacío
         if (detalleCarro == null || detalleCarro.getItem().isEmpty()) {
     %>
-    <p class="alert">Lo sentimos, no hay productos en el carro de compras!</p>
+    <div class="alert alert-info">
+        Tu carro de compras está vacío. <a href="<%=request.getContextPath()%>/productos">Ver productos</a>.
+    </div>
     <%
     } else {
-        // 3. Si el carrito tiene ítems, se calculan los totales para mostrarlos.
-        double total = detalleCarro.getTotal(); // Subtotal (sin IVA)
-        double iva = detalleCarro.getIva();
-        double totalConIva = detalleCarro.getTotalConIva(); // Total final
     %>
+
+    <p>A continuación se presenta el detalle de tu compra:</p>
+
+    <%-- Tabla para mostrar los items del carrito --%>
     <table class="styled-table">
+        <thead>
         <tr>
-            <th>Id Producto</th>
+            <th>ID Producto</th>
             <th>Nombre</th>
             <th>Precio Unitario</th>
             <th>Cantidad</th>
-            <th>Subtotal Ítem</th>
+            <th>Subtotal</th>
         </tr>
+        </thead>
+        <tbody>
         <%
-            // 4. Iterar sobre la lista de ItemCarro y generar una fila por cada uno.
+            // Iterar sobre los items del carrito
             for (ItemCarro item : detalleCarro.getItem()) {
         %>
         <tr>
-            <td><%= item.getProducto().getId() %></td>
+            <td><%= item.getProducto().getid() %></td>
             <td><%= item.getProducto().getNombre() %></td>
             <td><%= df.format(item.getProducto().getPrecio()) %></td>
-            <td><%= item.getCantidad() %></td>
+            <td><%= df.format(item.getCantidad()) %></td>
             <td><%= df.format(item.getSubtotal()) %></td>
         </tr>
         <%
             }
         %>
 
+        <%-- Filas de totales --%>
         <tr>
             <td colspan="4" style="text-align: right; font-weight: bold;">Total Base:</td>
             <td><%= df.format(total) %></td>
@@ -85,6 +104,7 @@
             <td colspan="4" style="text-align: right; font-weight: bold; background-color: #e9ecef;">TOTAL FINAL:</td>
             <td style="background-color: #e9ecef; font-weight: bold;"><%= df.format(totalConIva) %></td>
         </tr>
+        </tbody>
     </table>
 
     <div class="actions">
@@ -97,9 +117,10 @@
     %>
 
     <div class="actions">
-        <a class="button primary" href="<%=request.getContextPath()%>/productos">SEGUIR COMPRANDO</a>
-        <a class="button secondary" href="<%=request.getContextPath()%>/Index.html">Volver a Inicio</a>
+        <a class="button secondary" href="<%=request.getContextPath()%>/productos">Seguir Comprando</a>
+        <a class="button secondary" href="<%=request.getContextPath()%>/Index.html">Inicio</a>
     </div>
+
 </div>
 </body>
 </html>
