@@ -80,7 +80,7 @@ public class ItemCarro {
 
         // Comparamos si el ID del producto es el mismo.
         // Se utiliza Objects.equals() para manejar posibles IDs nulos de forma segura.
-        return Objects.equals(producto.getid(), itemCarro.producto.getid());
+        return Objects.equals(producto.getId(), itemCarro.producto.getId());
     }
 
     /**
@@ -93,7 +93,7 @@ public class ItemCarro {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(producto.getid());
+        return Objects.hash(producto.getId());
     }
 
     /**

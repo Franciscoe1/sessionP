@@ -2,11 +2,11 @@ package services;
 /*
     * Clase personalizada de excepción para manejar errores específicos en los servicios.
  */
-public class Exception extends RuntimeException{
-    public Exception(String mensaje){
+public class ServicesException extends RuntimeException{
+    public ServicesException(String mensaje){
         super(mensaje);
     }
-    public Exception (String mensaje, Throwable cause){
+    public ServicesException(String mensaje, Throwable cause){
         super(cause);
     }
 }

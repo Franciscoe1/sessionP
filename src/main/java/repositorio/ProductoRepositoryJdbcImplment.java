@@ -51,7 +51,7 @@ public class ProductoRepositoryJdbcImplment implements Repository<Producto> {
     @Override
     public void guardar(Producto producto) throws SQLException {
         String sql;
-        if(producto.getid() != null && producto.getid() > 0){
+        if(producto.getId() != null && producto.getId() > 0){
             sql = "update producto set nombreCategoria=?, idCategoria=?, stock=?, precio=?, descripcion=?, codigo=? " +
                     " fecha_elaboracion=?, fecha_caducidad=? where id=?";
         }else{
@@ -64,10 +64,10 @@ public class ProductoRepositoryJdbcImplment implements Repository<Producto> {
             stmt.setDouble(3, producto.getPrecio());
             stmt.setString(4, producto.getDescripcion());
             stmt.setInt(5, producto.getCondicion());
-            stmt.setLong(6, producto.getCategoria().getid());
+            stmt.setLong(6, producto.getCategoria().getId());
 
-            if(producto.getid()!=null && producto.getid() > 0){
-                stmt.setLong(7, producto.getid());
+            if(producto.getId()!=null && producto.getId() > 0){
+                stmt.setLong(7, producto.getId());
             }else{
                 stmt.setDate(7, Date.valueOf(producto.getFechaElaboracion()));
                 stmt.setDate(8, Date.valueOf(producto.getFechaCaducidad()));
@@ -98,7 +98,7 @@ public class ProductoRepositoryJdbcImplment implements Repository<Producto> {
         p.setCondicion(rs.getInt("condicion"));
         //Creamos un nuevo objeto de tipo categoria
         Categoria c = new Categoria();
-        c.setid(rs.getLong("id"));
+        c.setId(rs.getLong("idCategoria"));
         c.setNombre(rs.getString("categoria"));
         p.setCategoria(c);
         return p;

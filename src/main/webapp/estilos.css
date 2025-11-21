@@ -29,7 +29,7 @@
 /* ========================================================================= */
 
 body {
-    font-family: 'Montserrat', sans-serif; /* Prioriza Montserrat del primer bloque, ya importado */
+    font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     background-color: var(--background-light);
     color: var(--text-dark);
@@ -45,12 +45,12 @@ body {
 
 /* --- Contenedor Principal (Tarjetas) --- */
 .container {
-    max-width: 900px; /* Ancho ajustado de la mejora */
+    max-width: 900px;
     margin: 40px auto;
-    padding: 30px; /* Más padding de la mejora */
+    padding: 30px;
     background: var(--card-bg);
-    border-radius: 16px; /* Bordes más redondeados de la mejora */
-    box-shadow: 0 10px 30px var(--shadow-light); /* Sombra más grande y suave de la mejora */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px var(--shadow-light);
     border: 1px solid var(--border-light);
     /* Animación de carga para el contenedor */
     transform: scale(0.95);
@@ -173,7 +173,7 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus { /* Corregido el selector de focus */
+input[type="password"]:focus {
     border-color: var(--red-pastel-dark);
     outline: none;
     box-shadow: 0 0 0 3px rgba(194, 82, 82, 0.2);
@@ -186,22 +186,22 @@ input[type="password"]:focus { /* Corregido el selector de focus */
 /* Estilo base para .button y a.button, tomado del segundo bloque por ser más detallado */
 .button, a.button {
     display: inline-block;
-    padding: 10px 20px; /* Ligeramente más grande que el original */
-    margin: 5px 0; /* Margen del bloque original */
+    padding: 10px 20px;
+    margin: 5px 0;
     font-size: 1em;
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    border-radius: 6px; /* Más redondeado */
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.2s;
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Botón Principal (Azul/Éxito en el original, pero el segundo usa Red Pastel) */
+/* Botón Principal (Primary) */
 .button.primary {
-    background-color: var(--red-pastel-darker); /* Adoptando el color primario del segundo bloque */
+    background-color: var(--red-pastel-darker);
     color: #fff;
 }
 

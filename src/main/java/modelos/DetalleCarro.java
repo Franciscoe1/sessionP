@@ -35,7 +35,7 @@ public class DetalleCarro {
         // Buscamos si el producto ya existe en el carrito usando su ID.
         // Se utiliza Stream y Optional para una búsqueda más concisa.
         Optional<ItemCarro> optionalItemCarro = items.stream()
-                .filter(i -> i.getProducto().getid().equals(itemCarro.getProducto().getid()))
+                .filter(i -> i.getProducto().getId().equals(itemCarro.getProducto().getId()))
                 .findAny();
 
         if (optionalItemCarro.isPresent()) {

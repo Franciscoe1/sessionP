@@ -81,7 +81,7 @@
             for (ItemCarro item : detalleCarro.getItem()) {
         %>
         <tr>
-            <td><%= item.getProducto().getid() %></td>
+            <td><%= item.getProducto().getId() %></td>
             <td><%= item.getProducto().getNombre() %></td>
             <td><%= df.format(item.getProducto().getPrecio()) %></td>
             <td><%= df.format(item.getCantidad()) %></td>

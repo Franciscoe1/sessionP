@@ -40,7 +40,7 @@ public class Producto {
 
     // Implementamos los métodos setter and getter
     // de las valables añadidas
-public Long getid() {
+public Long getId() {
     return id;
 }
 

@@ -4,8 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import util.ConexionBDD;
 import jakarta.servlet.http.HttpServletResponse;
-import services.Exception;
-import util.ConexionBDD;
+import services.ServicesException;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -57,6 +56,7 @@ public class ConexionFilter implements Filter {
                 // destino
                 filterChain.doFilter(request, response);
 
+
                 /*
                  * Si el procesamineto se realizo correctamente sin lanzar excepciones, se confirma
                  * la solicitud, y se aplica todos los cambios a la base de datos
@@ -67,21 +67,21 @@ public class ConexionFilter implements Filter {
                  * Si corre algun error durante el procesamiento (dentro del doFilter), se
                  * captura la excepción
                  **/
-            } catch (SQLException e) {
+            } catch (SQLException | ServicesException e) {
                 // Se deshace los cambios con un rollbaxx y de esa forma se matiene la integridad de los
                 // datos
                 conn.rollback();
 
                 // Enviamos un código de error HTTP 500 al cliente
                 // indicando un problema interno del servido
-                /*((HttpServletResponse)
+                ((HttpServletResponse)
                 response).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                        e.getMessage());
-                e.printStackTrace();*/
+                e.printStackTrace();
 
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

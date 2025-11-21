@@ -9,11 +9,12 @@ import jakarta.servlet.http.HttpSession;
 import modelos.DetalleCarro;
 import modelos.ItemCarro;
 import modelos.Producto;
+import services.ProductoServiceJdbcImpl;
 import services.ProductoServices;
-import services.ProductosServicesImplement;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.sql.Connection;
 
 /**
  * Servlet encargado de agregar un producto al carrito de compras.
@@ -33,10 +34,10 @@ public class AgregarCarroServlet extends HttpServlet {
         // Se asume que el ID se pasa como parámetro de consulta (e.g., /agregar-carro?id=1)
         // Se convierte el String del parámetro a Long. Se debe manejar NumberFormatException en un entorno de producción.
         Long id = Long.parseLong(req.getParameter("id"));
-
+        Connection conn = (Connection) req.getAttribute("conn");
         // 2. Buscar el producto en el servicio
         // Se inicializa el servicio para acceder a los datos de los productos.
-        ProductoServices service = new ProductosServicesImplement();
+        ProductoServices service = new ProductoServiceJdbcImpl(conn);
         // Se busca el producto por ID, devolviendo un Optional.
         Optional <Producto> producto = service.porId(id);
 
@@ -50,23 +51,18 @@ public class AgregarCarroServlet extends HttpServlet {
             // 4. Obtener o crear el carrito en la Sesión
             HttpSession session = req.getSession();
             // Se intenta recuperar el objeto DetalleCarro (que se almacena bajo la clave "carro") de la sesión.
-            DetalleCarro detalleCarro = (DetalleCarro) session.getAttribute("carro");
+            DetalleCarro detalleCarro;
 
             // Si no hay carrito en la sesión, se crea uno nuevo y se guarda en la sesión.
-            if(detalleCarro == null){
+            if(session.getAttribute("carro") == null) {
                 detalleCarro = new DetalleCarro();
                 session.setAttribute("carro", detalleCarro);
+            } else {
+                // Si ya existe, se recupera el carrito existente.
+                detalleCarro = (DetalleCarro) session.getAttribute("carro");
             }
-
-            // 5. Añadir el ItemCarro al carrito.
-            // DetalleCarro maneja si debe añadir un nuevo ítem o incrementar la cantidad existente.
             detalleCarro.addItemCarro(item);
         }
-
-        // 6. Redirigir al Servlet que muestra el contenido del carrito
-        // Esto previene el problema del doble envío del formulario/petición al recargar la página
-        // (patrón Post/Redirect/Get simulado con GET/Redirect/Get).
-        // Se redirige a la ruta del Servlet que tiene la lógica de mostrar el carrito.
-        resp.sendRedirect(req.getContextPath()+"/ver-carro");
+        resp.sendRedirect(req.getContextPath() + "/ver-carro");
     }
 }
