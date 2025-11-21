@@ -25,13 +25,12 @@ public class CategoriaRepositoryJdbcImplement implements Repository<Categoria>{
     }
 
     /**
-     * Consulta SQL para mapear una Categoria desde un ResultSet.
-     * @param rs El ResultSet de la consulta.
-     * @return Objeto Categoria creado a partir de la fila actual del ResultSet.
-     * @throws SQLException Si ocurre un error al acceder a los datos.
+     * Devuelve una lista de todas las categorías presentes en la base de datos.
+     * @return Lista de objetos Categoria.
+     * @throws SQLException Si ocurre un error al ejecutar la consulta SQL.
      */
     @Override
-public List<Categoria> listar() throws SQLException {
+    public List<Categoria> listar() throws SQLException {
         List<Categoria> categorias = new ArrayList<>();
         try(Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("Select * from categoria")) {
@@ -42,6 +41,7 @@ public List<Categoria> listar() throws SQLException {
         }
         return categorias;
     }
+
     @Override
     public Categoria porId(Long id) throws SQLException {
         Categoria categoria = null;
@@ -55,14 +55,23 @@ public List<Categoria> listar() throws SQLException {
         }
         return categoria;
     }
+
     @Override
     public void guardar(Categoria categoria) throws SQLException {
 
-        }
+    }
+
     @Override
     public void eliminar(Long id) throws SQLException {
 
     }
+
+    /**
+     * Consulta SQL para mapear una Categoria desde un ResultSet.
+     * @param rs El ResultSet de la consulta.
+     * @return Objeto Categoria creado a partir de la fila actual del ResultSet.
+     * @throws SQLException Si ocurre un error al acceder a los datos.
+     */
     private Categoria getClass(ResultSet rs) throws SQLException {
         Categoria categoria = new Categoria();
         categoria.setNombre(rs.getString("nombreCategoria"));
