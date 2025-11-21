@@ -21,7 +21,12 @@
 <h1>Listado de Productos</h1>
     <% if (username.isPresent()) { %>
 <div> Hola <%=username.get()%>, Bienvenido! </div>
-<p><a href="<%=request.getContextPath()%>" >Crear producto</a></p>
+<p>
+    <a class="button primary"
+       href="<%= request.getContextPath() %>/producto/form">
+        Crear producto
+    </a>
+</p>
     <%}%>
 <table>
     <tr>
@@ -60,7 +65,10 @@
         <td><%=p.getPrecio()%>
         </td>
         <td>
-            <a href="<%=request.getContextPath()%>/agregar-carro?id=<%=p.getId()%>Agregar al carro</a>
+            <a class="button success small"
+               href="<%=request.getContextPath()%>/agregar-carro?id=<%=p.getId()%>">
+                Agregar al carro
+            </a>
         </td>
         <%}%>
     </tr>
